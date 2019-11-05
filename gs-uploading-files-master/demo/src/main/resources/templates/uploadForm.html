@@ -1,0 +1,93 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+
+<div>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+
+<div>
+    <form method="POST" enctype="multipart/form-data" th:action="@{/}">
+        <div class="form-group">
+            <div class="form-row">
+                <label for="nameOfFile">Name of File</label>
+                <input class="form-control" id="nameOfFile" type="text" name="filename"
+                       placeholder="Enter custom name of file"/>
+                <div class="custom-file mt-3">
+                    <label class="custom-file-label" for="currentFile">Choose a file</label>
+                    <input class="custom-file-input" id="currentFile" type="file" name="file"/>
+                </div>
+            </div>
+            <div class="form-row mt-3">
+                <button class="btn btn-primary" type="submit">Upload</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+	<ul>
+		<table>
+			<thead>
+			<tr>
+				<th>File</th>
+				<th>Size</th>
+				<th>Author</th>
+				<th></th>
+			</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="file: ${files}">
+					<td th:text = "${file.name}"></td>
+					<td th:text = "${file.getSize()}"></td>
+					<td th:text = "${file.getUsername()}"></td>
+					<td>
+						<form method = "get" action = "/download">
+							<button type = "submit" name = "file" th:value= "${file.name}">Download</button>
+						</form>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</ul>
+</div>
+
+<!--<div>-->
+<!--    <ul>-->
+<!--        <li th:each="f : ${files}">-->
+<!--            <div class="row">-->
+<!--                <div class="col-3 mt-1">-->
+<!--                    Name: "${f.fileName}"-->
+<!--                </div>-->
+<!--                <div class="col-3 mt-1">-->
+<!--                    Owner: ${f.authorName}-->
+<!--                </div>-->
+<!--                <div class="col-3 mt-1">-->
+<!--                    Size: ${f.fileSize}B-->
+<!--                </div>-->
+<!--                <div class="col-2">-->
+<!--                    <form method="get" action="/download">-->
+<!--                        <button class="btn btn-outline-primary" type="submit" name="file" value="${f.id}">-->
+<!--                            DOWNLOAD-->
+<!--                        </button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="col-1">-->
+<!--                    <#if user??>-->
+<!--                    <#if user.id == f.user.id>-->
+<!--                    <a class="btn btn-outline-danger" href="/delete/file/${f.id}">X</a>-->
+<!--                </#if>-->
+<!--            </#if>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+</body>
+</html>
